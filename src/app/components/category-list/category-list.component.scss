@@ -4,11 +4,11 @@ $primary-dark: #12232e;
 $accent-dark: #203647;
 
 .category-card {
+  background-color: $accent;
   max-width: 315px;
   min-width: 288px;
-  width: 30%;
   padding: 0;
-  background-color: $accent;
+  width: 30%;
 }
 
 .category-title {
@@ -19,6 +19,6 @@ $accent-dark: #203647;
 
 .category-content {
   background-color: $accent;
-  padding: 0 16px 16px;
   font-weight: 500;
+  padding: 0 16px 16px;
 }
