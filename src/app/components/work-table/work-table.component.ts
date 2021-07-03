@@ -5,7 +5,7 @@ interface WorkExperience {
   title: string,
   company: string,
   year: string,
-  summary: string,
+  summary: string[],
 }
 @Component({
   selector: 'work-table',

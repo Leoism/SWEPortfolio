@@ -35,6 +35,6 @@ export class ExperienceOverview {
 
   readonly workExperience = [
     {title: 'EP Intern', company: 'Google', year: '2019',
-    summary: 'This is a summary'}
+    summary: ['This is a summary']}
   ]
 }

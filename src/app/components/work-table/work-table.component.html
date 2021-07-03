@@ -10,7 +10,9 @@
       <div class="work-detail"
            [@detailExpand]="work == expandedWork ? 'expanded' : 'collapsed'">
         <div class="work-summary">
-          {{work.summary}}
+          <li *ngFor="let bullet of work.summary">
+            {{bullet}}
+          </li>
         </div>
       </div>
     </td>
