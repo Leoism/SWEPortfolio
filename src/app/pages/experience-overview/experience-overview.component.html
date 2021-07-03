@@ -1,9 +1,9 @@
-<mat-expansion-panel>
+<mat-expansion-panel [expanded]="true">
   <mat-expansion-panel-header>
     <mat-panel-title>Work Experience</mat-panel-title>
     <mat-panel-description>All SWE related work experience [Most recent first]</mat-panel-description>
   </mat-expansion-panel-header>
-  <work-table></work-table>
+  <work-table [workExperience]="workExperience"></work-table>
 </mat-expansion-panel>
 <mat-expansion-panel>
   <mat-expansion-panel-header>
