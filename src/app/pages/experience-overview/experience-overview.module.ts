@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material';
 
 import { CategoryListModule } from '../../components/category-list/category-list.module';
+import { WorkTableModule } from '../../components/work-table/work-table.module';
 
 import { ExperienceOverview } from './experience-overview.component';
 
@@ -12,6 +13,7 @@ import { ExperienceOverview } from './experience-overview.component';
     CategoryListModule,
     CommonModule,
     MatExpansionModule,
+    WorkTableModule,
   ],
   exports: [ExperienceOverview],
 })
