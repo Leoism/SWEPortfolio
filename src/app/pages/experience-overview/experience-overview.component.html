@@ -1,10 +1,16 @@
-<div class="flex-container">
-  <category-list title="Programming Courses"
-                 [items]="programmingCourses"></category-list>
-  <category-list title="Game Development Courses"
-                 [items]="gameDevelopmentCourses"></category-list>
-  <category-list title="Conceptual Courses"
-                 [items]="conceptualCourses"></category-list>
-  <category-list title="Miscellaneous Courses"
-                 [items]="miscCourses"></category-list>
-</div>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>Coursework</mat-panel-title>
+    <mat-panel-description>All relevant coursework I've taken in college.</mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="flex-container">
+    <category-list title="Programming Courses"
+                   [items]="programmingCourses"></category-list>
+    <category-list title="Game Development Courses"
+                   [items]="gameDevelopmentCourses"></category-list>
+    <category-list title="Conceptual Courses"
+                   [items]="conceptualCourses"></category-list>
+    <category-list title="Miscellaneous Courses"
+                   [items]="miscCourses"></category-list>
+  </div>
+</mat-expansion-panel>
