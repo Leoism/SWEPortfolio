@@ -5,19 +5,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { ExperienceOverviewModule } from './pages/experience-overview/experience-overview.module';
 import { NavBarModule } from './components/nav-bar/nav-bar.module';
+import { ExperienceOverviewModule } from './pages/experience-overview/experience-overview.module';
+import { ProjectOverviewModule } from './pages/project-overview/project-overview.module';
+import { AboutOverviewModule } from './pages/about-overview/about-overview.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    AboutOverviewModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     ExperienceOverviewModule,
     NavBarModule,
+    ProjectOverviewModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

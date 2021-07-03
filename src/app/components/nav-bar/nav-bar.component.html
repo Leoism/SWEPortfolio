@@ -2,5 +2,6 @@
      class="main-nav-bar">
   <a mat-tab-link *ngFor="let navItem of navItems"
      (click)="activeLink = navItem.link"
-     [active]="activeLink == navItem.link">{{navItem.name}}</a>  
+     [active]="activeLink == navItem.link"
+     [routerLink]=navItem.link>{{navItem.name}}</a>  
 </nav>

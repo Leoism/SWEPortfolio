@@ -1,8 +1,9 @@
-import { Input, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule, MatTabsModule, MatToolbarModule } from '@angular/material';
+import { RouterModule } from '@angular/router';
 
 import { NavBar } from './nav-bar.component';
-import { MatButtonModule, MatTabsModule, MatToolbarModule } from '@angular/material';
 
 @NgModule({
   declarations: [NavBar],
@@ -11,6 +12,7 @@ import { MatButtonModule, MatTabsModule, MatToolbarModule } from '@angular/mater
     MatButtonModule,
     MatTabsModule,
     MatToolbarModule,
+    RouterModule,
   ],
   exports: [NavBar],
 })
