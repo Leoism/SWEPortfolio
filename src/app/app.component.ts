@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'SWEPortfolio';
+  readonly navButtons = [
+    {name: 'Home', link: '/'},
+    {name: 'Projects', link: '/projects'},
+    {name: 'About', link: '/about'},
+  ];
 }

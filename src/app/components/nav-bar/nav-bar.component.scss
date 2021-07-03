@@ -1,0 +1,19 @@
+@import "../../../styles.scss";
+
+.main-nav-bar {
+  background-color: $primary;
+  a {
+    color: #fff;
+  }
+  a:hover {
+    background-color: $accent-dark;
+  }
+
+  .mat-tab-link {
+    opacity: 1;
+  }
+
+  .mat-tab-label-active {
+    background-color: $primary-dark;
+  }
+}
