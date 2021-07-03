@@ -1,0 +1,10 @@
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  category-list {
+    display: flex;
+    margin: 6px 12px;
+  }
+}

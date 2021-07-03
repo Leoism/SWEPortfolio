@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'experience-overview',
   templateUrl: './experience-overview.component.html',
-  styleUrls: ['./experience-overview.component.sass']
+  styleUrls: ['./experience-overview.component.scss']
 })
 export class ExperienceOverview {
   readonly gameDevelopmentCourses = [
