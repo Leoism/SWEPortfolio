@@ -7,28 +7,29 @@ import { Component } from '@angular/core';
 })
 export class ExperienceOverview {
   readonly gameDevelopmentCourses = [
-    'Intro to 3D Computer Graphics',
-    'Intro to Game Engine Development',
+    {name: 'Intro to Game Development', tooltip: 'In Progress'},
+    {name: 'Intro to Game Engine Development'},
+    {name: 'Intro to 3D Computer Graphics'},
   ];
 
   readonly programmingCourses = [
-    'Intro to Computer Programming I',
-    'Intro to Computer Programming II',
-    'Data Structures & Algorithms I',
-    'Data Structures & Algorithms II',
+    {name: 'Intro to Computer Programming I'},
+    {name: 'Intro to Computer Programming II'},
+    {name: 'Data Structures & Algorithms I'},
+    {name: 'Data Structures & Algorithms II'},
   ];
 
   readonly conceptualCourses = [
-    'Software Engineering Concepts',
-    'Technical Writing',
-    'Software Design & Analysis',
-    'Management Principles',
+    {name: 'Software Engineering Concepts'},
+    {name: 'Technical Writing'},
+    {name: 'Software Design & Analysis'},
+    {name: 'Management Principles'},
   ];
 
   readonly miscCourses = [
-    'Hardware & Computer Organization',
-    'Operating Systems',
-    'Network Design & Programming',
-    'Database Systems',
+    {name: 'Hardware & Computer Organization'},
+    {name: 'Operating Systems'},
+    {name: 'Network Design & Programming'},
+    {name: 'Database Systems'},
   ];
 }
