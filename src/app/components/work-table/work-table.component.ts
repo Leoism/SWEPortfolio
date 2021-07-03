@@ -21,6 +21,6 @@ interface WorkExperience {
 })
 export class WorkTable {
   @Input() workExperience: WorkExperience[] = [];
-  readonly columnNames: string[] = ['Title', 'Company', 'Year'];
+  readonly columnNames: string[] = ['Company', 'Title', 'Year'];
   expandedWork: WorkExperience | null;
 }
