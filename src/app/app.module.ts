@@ -9,6 +9,7 @@ import { NavBarModule } from './components/nav-bar/nav-bar.module';
 import { ExperienceOverviewModule } from './pages/experience-overview/experience-overview.module';
 import { ProjectOverviewModule } from './pages/project-overview/project-overview.module';
 import { AboutOverviewModule } from './pages/about-overview/about-overview.module';
+import { AddItemsPageModule } from './pages/add-items-page/add-items-page.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AboutOverviewModule } from './pages/about-overview/about-overview.modul
   ],
   imports: [
     AboutOverviewModule,
+    AddItemsPageModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,

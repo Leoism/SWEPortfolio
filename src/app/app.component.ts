@@ -11,5 +11,6 @@ export class AppComponent {
     {name: 'Home', link: '/'},
     {name: 'Projects', link: '/projects'},
     {name: 'About', link: '/about'},
+    {name: 'Portal', link: '/portal'},
   ];
 }
