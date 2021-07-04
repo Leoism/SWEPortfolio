@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'experience-overview',
   templateUrl: './experience-overview.component.html',
   styleUrls: ['./experience-overview.component.scss']
 })
-export class ExperienceOverview {
+export class ExperienceOverview implements AfterViewInit {
   readonly gameDevelopmentCourses = [
     {name: 'Intro to Game Development', tooltip: 'In Progress'},
     {name: 'Intro to Game Engine Development'},
@@ -33,6 +33,10 @@ export class ExperienceOverview {
     {name: 'Database Systems'},
   ];
 
-  readonly workExperience = [
-  ];
+  workExperience = [];
+
+  ngAfterViewInit() {
+    fetch('http://localhost:8080/get_work_experience').then((res) => res.json())
+    .then((json) => this.workExperience = json);
+  }
 }

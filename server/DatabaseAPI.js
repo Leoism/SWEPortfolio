@@ -5,14 +5,13 @@ const { Pool } = require('pg');
 const connectionString = `postgres://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.ADDRESS}:${process.env.PORT}/${process.env.DATABASE}`;
 const seasonVals = { Winter: 1, Spring: 2, Summer: 3, Fall: 4 };
 
-const pool = new Pool({ connectionString });
-
 /**
  * Retrieves all work experience from the database and returns it as an array.
  * @returns An array of all work experience sorted in descending chronological
  *          order
  */
 async function retrieveWorkExperience() {
+  const pool = new Pool({ connectionString });
   const workExpQuery = `
     SELECT WorkExperience.ID, company, title, year, bullet
     FROM WorkExperience
@@ -32,6 +31,7 @@ async function retrieveWorkExperience() {
  * @returns Returns true if inserts with success
  */
 async function addWorkExperience(workExperienceObj) {
+  const pool = new Pool({ connectionString });
   const company = workExperienceObj.company;
   const title = workExperienceObj.title;
   const year = workExperienceObj.year;

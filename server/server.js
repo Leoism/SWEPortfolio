@@ -1,0 +1,19 @@
+const express = require('express');
+const cors = require('cors');
+const databaseApi = require('./DatabaseAPI');
+const app = express();
+
+const corsOptions = {
+  origin: 'http://localhost:4200',
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/get_work_experience', async (req, res) => {
+  console.log(await databaseApi.retrieveWorkExperience());
+  res.json(await databaseApi.retrieveWorkExperience());
+});
+
+app.listen(8080);
