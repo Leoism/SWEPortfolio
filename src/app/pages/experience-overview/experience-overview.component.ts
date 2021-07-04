@@ -1,4 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { AddItemsPage } from '../add-items-page/add-items-page.component';
 
 @Component({
   selector: 'experience-overview',
@@ -35,8 +37,18 @@ export class ExperienceOverview implements AfterViewInit {
 
   workExperience = [];
 
+
+  constructor(public dialog: MatDialog) {}
+
   ngAfterViewInit() {
     fetch('http://localhost:8080/get_work_experience').then((res) => res.json())
     .then((json) => this.workExperience = json);
+  }
+
+  openForm() {
+    const dialogRef = this.dialog.open(AddItemsPage);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 }

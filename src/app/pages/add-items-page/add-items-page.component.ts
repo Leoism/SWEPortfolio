@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'add-items-page',
@@ -7,3 +8,4 @@ import { Component } from '@angular/core';
 })
 export class AddItemsPage {
 }
+
