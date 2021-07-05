@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DatabaseCommunicator } from '../../middleware/DatabaseCommunicator';
 import { AddItemsPage } from '../add-items-page/add-items-page.component';
 

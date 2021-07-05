@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatListOption } from '@angular/material';
+import { MatListOption } from '@angular/material/list';
 import { DatabaseCommunicator } from '../../middleware/DatabaseCommunicator';
 
 @Component({

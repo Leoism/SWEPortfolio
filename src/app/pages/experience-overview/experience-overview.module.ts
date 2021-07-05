@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatExpansionModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { CategoryListModule } from '../../components/category-list/category-list.module';
 import { WorkTableModule } from '../../components/work-table/work-table.module';
