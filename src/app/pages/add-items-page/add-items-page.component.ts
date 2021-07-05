@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatListOption } from '@angular/material';
 import { DatabaseCommunicator } from '../../middleware/DatabaseCommunicator';
 
@@ -12,6 +12,7 @@ export class AddItemsPage implements OnInit {
   categoryControl = new FormControl('', []);
 
   entryGroup: FormGroup;
+  bulletControl: FormControl = new FormControl('', [Validators.required]);
   bullets: string[] = [];
 
   isFormEmpty: boolean = true;
@@ -28,6 +29,7 @@ export class AddItemsPage implements OnInit {
 
   addBullet(bullet: string) {
     this.bullets.push(bullet);
+    this.bulletControl.setValue('', { emitEvent: false });
   }
 
   async saveEntry() {

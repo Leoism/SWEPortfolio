@@ -1,6 +1,6 @@
 <h2>Add A New Entry</h2>
 <mat-dialog-content>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="category-select">
     <mat-label>Category</mat-label>
     <mat-select [formControl]="categoryControl">
       <mat-option value="work">Work Experience</mat-option>
@@ -15,18 +15,18 @@
 </mat-dialog-content>
 
 <ng-template #workForm>
-  <form [formGroup]="entryGroup">
-    <mat-form-field appearance="outline">
+  <form [formGroup]="entryGroup" class="flex-container">
+    <mat-form-field appearance="outline" class="flex-item">
       <mat-label>Company</mat-label>
       <input matInput formControlName="workCompany">
       <mat-icon matSuffix>work_outline</mat-icon>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="flex-item">
       <mat-label>Title</mat-label>
       <input matInput formControlName="workTitle">
       <mat-icon matSuffix>person_outline</mat-icon>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="flex-item">
       <mat-label>Year</mat-label>
       <input matInput formControlName="workYear">
       <mat-icon matSuffix>calendar_today</mat-icon>
@@ -35,18 +35,18 @@
 </ng-template>
 
 <ng-template #projectsForm>
-  <form [formGroup]="entryGroup">
-    <mat-form-field appearance="outline">
+  <form [formGroup]="entryGroup" class="flex-container">
+    <mat-form-field appearance="outline" class="flex-item">
       <mat-label>Name</mat-label>
       <input matInput formControlName="projectName">
       <mat-icon matSuffix>text_fields</mat-icon>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="flex-item">
       <mat-label>Link</mat-label>
       <input matInput formControlName="projectLink">
       <mat-icon matSuffix>link</mat-icon>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="flex-item">
       <mat-label>Year</mat-label>
       <input matInput formControlName="projectYear">
       <mat-icon matSuffix>calendar_today</mat-icon>
@@ -55,13 +55,16 @@
 </ng-template>
 
 <ng-template #bulletForm>
-  <div>
-    <mat-form-field appearance="outline">
+  <div class="bullet-flex">
+    <mat-form-field appearance="outline" class="bullet-entry">
       <mat-label>Bullet</mat-label>
-      <input matInput #bulletInput>
+      <input matInput #bulletInput [formControl]="bulletControl">
       <mat-icon matSuffix>format_list_bulleted</mat-icon>
+      <mat-error>Bullet cannot be empty</mat-error>
     </mat-form-field>
-    <button mat-mini-fab (click)="addBullet(bulletInput.value)">
+    <button mat-stroked-button class="bullet-add-button"
+            (click)="addBullet(bulletInput.value)"
+            [disabled]="bulletControl.invalid">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -70,9 +73,9 @@
     <mat-list-option *ngFor="let bullet of bullets" [value]="bullet">{{bullet}}</mat-list-option>
   </mat-selection-list>
   <div>
-    <button mat-button (click)="deleteBullets(bulletList.selectedOptions.selected)">Delete</button>
-  </div>
-  <div>
-    <button mat-button (click)="saveEntry()" [disabled]="isFormEmpty">Save</button>
+    <button mat-button (click)="deleteBullets(bulletList.selectedOptions.selected)">
+      Delete {{bulletList.selectedOptions.selected.length}} bullets</button>
+    <button mat-button (click)="saveEntry()"
+            [disabled]="isFormEmpty">Save Entry</button>
   </div>
 </ng-template>

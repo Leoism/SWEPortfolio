@@ -1,0 +1,35 @@
+:host {
+  .category-select {
+    padding-left: 1%;
+  }
+
+  
+  .bullet-flex {
+    padding-left: 1%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .bullet-entry {
+      flex: 1 1 90%;
+    }
+
+    .bullet-add-button {
+      flex: 1 1 8%;
+      height: 60px;
+      margin: 4px 0; 
+    }
+  }
+
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    .flex-item {
+      flex: 1 1 45%;
+      height: auto;
+      padding: 0 1%;
+    }
+  }
+}
