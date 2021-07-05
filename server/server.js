@@ -16,4 +16,12 @@ app.get('/get_work_experience', async (req, res) => {
   res.json(await databaseApi.retrieveWorkExperience());
 });
 
+
+app.post('/add_work_experience', async (req, res) => {
+  const isSuccess = await databaseApi.addWorkExperience(req.body);
+  if (isSuccess)
+    res.sendStatus(200);
+  else
+    res.sendStatus(500);
+})
 app.listen(8080);
