@@ -22,4 +22,16 @@ export class DatabaseCommunicator {
     })).status;
     return statusCode === 200;
   }
+
+  static async removeWorkExperienceEntries(workEntries: WorkExperience[]) {
+    const statusCode = (await fetch(`${this.baseUrl}/remove_work_experience`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(workEntries),
+    })).status;
+
+    return statusCode === 200;
+  }
 };

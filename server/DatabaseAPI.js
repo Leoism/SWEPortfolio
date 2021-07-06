@@ -72,6 +72,51 @@ async function addWorkExperience(workExperienceObj) {
 }
 
 /**
+ * Given an array of work experience objects, remove all entries from the
+ * database. Returns true if all entries were successful, otherwise returns
+ * false.
+ * @param {WorkExperience[]} workEntries 
+ * @returns Returns true if all entries were successfully removed
+ */
+async function removeWorkExperienceEntries(workEntries) {
+  return workEntries.every((entry) => removeWorkExperienceEntry(entry));
+}
+
+/**
+ * Removes the given work experience entry from the database. Returns true if
+ * the entry was successfully removed. 
+ * @param {WorkExperience} workExperienceObj 
+ * @returns Returns true if the entry was successfully removed
+ */
+async function removeWorkExperienceEntry(workExperienceObj) {
+  const pool = new Pool({ connectionString });
+  const company = workExperienceObj.company;
+  const title = workExperienceObj.title;
+  const year = workExperienceObj.year;
+
+  const removeBulletsQuery = `
+  DELETE FROM WorkBullet
+  WHERE workExperienceID = (
+      SELECT ID
+      FROM WorkExperience
+      WHERE company = $1 AND title = $2 AND year = $3
+   );`;
+  const removeEntryQuery = `
+  DELETE FROM WorkExperience
+  WHERE company = $1 AND title = $2 AND year = $3;`;
+  try {
+    await pool.query(removeBulletsQuery, [company, title, year]);
+    await pool.query(removeEntryQuery, [company, title, year]);
+    pool.end();
+  } catch (err) {
+    pool.end();
+    console.log(err);
+    return false;
+  }
+  return true;
+}
+
+/**
  * Given the rows of a postgres query result, extracts all information into 
  * a parsable object. 
  * @param {PostgresArr} rows - Query results from postgres.  
@@ -118,6 +163,7 @@ function sortSeasons(workExp1, workExp2) {
 }
 
 module.exports = {
-  retrieveWorkExperience,
   addWorkExperience,
+  removeWorkExperienceEntries,
+  retrieveWorkExperience,
 };

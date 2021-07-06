@@ -23,5 +23,14 @@ app.post('/add_work_experience', async (req, res) => {
     res.sendStatus(200);
   else
     res.sendStatus(500);
-})
+});
+
+app.post('/remove_work_experience', async (req, res) => {
+  const isSuccess = await databaseApi.removeWorkExperienceEntries(req.body);
+  if (isSuccess)
+    res.sendStatus(200);
+  else
+    res.sendStatus(500);
+});
+
 app.listen(8080);

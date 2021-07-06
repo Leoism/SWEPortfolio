@@ -1,0 +1,38 @@
+:host {
+  table {
+    width: 100%;
+  }
+
+  tr.work-detail-row {
+    height: 0;
+  }
+
+  tr.work-row:not(.expanded-row):hover {
+    background: whitesmoke;
+  }
+
+  tr.work-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+
+  .work-row td {
+    border-bottom-width: 0;
+  }
+
+  .work-detail {
+    overflow: hidden;
+    display: flex;
+  }
+
+  .work-summary {
+    padding: 16px;
+  }
+
+  .work-recap {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    margin: 8px 0;
+    height: 128px;
+  }
+}
