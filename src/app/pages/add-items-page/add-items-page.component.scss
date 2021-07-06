@@ -1,9 +1,13 @@
 :host {
+  h2,
+  h3 {
+    padding-left: 1%;
+  }
+
   .category-select {
     padding-left: 1%;
   }
 
-  
   .bullet-flex {
     padding-left: 1%;
     display: flex;
@@ -16,7 +20,7 @@
     .bullet-add-button {
       flex: 1 1 8%;
       height: 60px;
-      margin: 4px 0; 
+      margin: 4px 0;
     }
   }
 

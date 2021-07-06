@@ -11,4 +11,5 @@ interface NavigationItem {
 })
 export class NavBar {
   @Input() navItems: NavigationItem[] = [];
+  activeLink: string = '';
 }
