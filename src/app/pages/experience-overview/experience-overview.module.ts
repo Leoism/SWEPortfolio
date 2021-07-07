@@ -1,11 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 import { CategoryListModule } from '../../components/category-list/category-list.module';
-import { WorkTableModule } from '../../components/work-table/work-table.module';
-
+import { CommonTableModule } from '../../components/common-table/common-table.module';
 import { ExperienceOverview } from './experience-overview.component';
 
 @NgModule({
@@ -15,7 +13,7 @@ import { ExperienceOverview } from './experience-overview.component';
     CommonModule,
     MatButtonModule,
     MatExpansionModule,
-    WorkTableModule,
+    CommonTableModule,
   ],
   exports: [ExperienceOverview],
 })

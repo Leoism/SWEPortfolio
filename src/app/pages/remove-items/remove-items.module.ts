@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
-import { WorkTableModule } from 'src/app/components/work-table/work-table.module';
+import { CommonTableModule } from '../../components/common-table/common-table.module';
 import { AddItemsPageModule } from '../add-items-page/add-items-page.module';
 import { RemoveItems } from './remove-items.component';
 
@@ -17,7 +17,7 @@ import { RemoveItems } from './remove-items.component';
     MatCheckboxModule,
     MatDividerModule,
     MatTableModule,
-    WorkTableModule,
+    CommonTableModule,
   ],
   exports: [RemoveItems],
 })

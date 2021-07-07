@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { WorkTable } from './common-table.component';
 
-import { WorkTable } from './work-table.component';
 
 describe('WorkTable', () => {
   let component: WorkTable;
@@ -8,9 +8,9 @@ describe('WorkTable', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkTable ]
+      declarations: [WorkTable]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

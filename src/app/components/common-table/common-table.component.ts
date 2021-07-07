@@ -4,10 +4,12 @@ import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DatabaseCommunicator, WorkExperience } from '../../middleware/DatabaseCommunicator';
 
+type Table = 'work' | 'course' | 'project';
+
 @Component({
-  selector: 'work-table',
-  templateUrl: './work-table.component.html',
-  styleUrls: ['./work-table.component.scss'],
+  selector: 'common-table',
+  templateUrl: './common-table.component.html',
+  styleUrls: ['./common-table.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -16,23 +18,24 @@ import { DatabaseCommunicator, WorkExperience } from '../../middleware/DatabaseC
     ]),
   ],
 })
-export class WorkTable {
+export class CommonTable<T> {
   @Input() isRemoval: boolean = false;
-  @Input() workExperience: MatTableDataSource<WorkExperience> = new MatTableDataSource<WorkExperience>([]);
-  readonly columnNames: string[] = ['Company', 'Title', 'Year'];
-  expandedWork: WorkExperience | null;
-  selection = new SelectionModel<WorkExperience>(true, []);
+  @Input() tableEntries: MatTableDataSource<T> = new MatTableDataSource<T>([]);
+  @Input() columnNames: string[] = [];
+  @Input() tableType: Table;
+
+  expandedEntry: T | null;
+  selection = new SelectionModel<T>(true, []);
 
   addCheckboxColumn() {
     if (this.columnNames[0] === 'select') return true;
     this.columnNames.splice(0, 0, 'select');
-    console.log(this.columnNames);
     return true;
   }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.workExperience.data.length;
+    const numRows = this.tableEntries.data.length;
     return numSelected === numRows;
   }
 
@@ -43,20 +46,29 @@ export class WorkTable {
       return;
     }
 
-    this.selection.select(...this.workExperience.data);
+    this.selection.select(...this.tableEntries.data);
   }
 
   async removeEntries() {
-    const isSuccess = await DatabaseCommunicator.removeWorkExperienceEntries(this.selection.selected as WorkExperience[]);
+    let isSuccess = false;
+    switch (this.tableType) {
+      case 'work':
+        isSuccess = await DatabaseCommunicator.removeWorkExperienceEntries(this.selection.selected as unknown as WorkExperience[]);
+        break;
+      case 'project':
+        break;
+      case 'course':
+        break;
+    }
     if (!isSuccess) {
       alert('There was an error removing the entries');
       return;
     }
 
     this.selection.selected.forEach((entry) => {
-      this.workExperience.data.splice(this.workExperience.data.indexOf(entry), 1);
+      this.tableEntries.data.splice(this.tableEntries.data.indexOf(entry), 1);
     });
-    this.workExperience = new MatTableDataSource<WorkExperience>(this.workExperience.data);
+    this.tableEntries = new MatTableDataSource<T>(this.tableEntries.data);
     this.selection.clear();
   }
 }

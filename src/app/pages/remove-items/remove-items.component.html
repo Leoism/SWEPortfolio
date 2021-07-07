@@ -3,5 +3,7 @@
 <mat-divider></mat-divider>
 <br>
 <h2>Remove</h2>
-<work-table [isRemoval]="true"
-            [workExperience]="workExperience"></work-table>
+<common-table [isRemoval]="true"
+              [tableEntries]="workExperience"
+              tableType="work"
+              [columnNames]="['Company', 'Title', 'Year']"></common-table>

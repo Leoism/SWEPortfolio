@@ -5,7 +5,9 @@
       <mat-panel-description>All my SWE related work experience. Sorted in descending chronological order. </mat-panel-description>
     </mat-expansion-panel-header>
     <p>The table rows are expandable. Click on a row to expand it.</p>
-    <work-table [workExperience]="workExperience"></work-table>
+    <common-table [tableEntries]="workExperience"
+                  tableType="work"
+                  [columnNames]="['Company', 'Title', 'Year']"></common-table>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>

@@ -4,12 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { WorkTable } from './work-table.component';
+import { CommonTable } from './common-table.component';
 
 
 
 @NgModule({
-  declarations: [WorkTable],
+  declarations: [CommonTable],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -17,6 +17,6 @@ import { WorkTable } from './work-table.component';
     MatCheckboxModule,
     MatTableModule,
   ],
-  exports: [WorkTable],
+  exports: [CommonTable],
 })
-export class WorkTableModule { }
+export class CommonTableModule { }
