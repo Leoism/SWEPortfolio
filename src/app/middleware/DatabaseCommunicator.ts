@@ -5,11 +5,18 @@ export interface WorkExperience {
   bullets: string[],
 };
 
+export interface Project {
+  name: string,
+  year: number,
+  link: string,
+  bullets: string[],
+}
+
 export class DatabaseCommunicator {
   static baseUrl: string = 'http://localhost:8080';
 
   static async getWorkExperienceEntries() {
-    return await (await fetch(`${this.baseUrl}/get_work_experience`)).json();
+    return (await fetch(`${this.baseUrl}/get_work_experience`)).json();
   }
 
   static async addWorkExperienceEntry(workEntry: WorkExperience) {
@@ -30,6 +37,23 @@ export class DatabaseCommunicator {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(workEntries),
+    })).status;
+
+    return statusCode === 200;
+  }
+
+  static async getProjects() {
+    return (await fetch(`${this.baseUrl}/get_projects`)).json()
+  }
+
+  static async addProject(project) {
+    console.log(project);
+    const statusCode = (await fetch(`${this.baseUrl}/add_project`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(project),
     })).status;
 
     return statusCode === 200;

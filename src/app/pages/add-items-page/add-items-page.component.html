@@ -4,13 +4,13 @@
     <mat-label>Category</mat-label>
     <mat-select [formControl]="categoryControl">
       <mat-option value="work">Work Experience</mat-option>
-      <mat-option value="projects">Projects</mat-option>
-      <mat-option value="courses">Coursework</mat-option>
+      <mat-option value="project">Project</mat-option>
+      <mat-option value="course">Coursework</mat-option>
     </mat-select>
   </mat-form-field>
   <!-- Only render the appropriate form when they are selected -->
   <ng-container *ngIf="categoryControl.value === 'work' then workForm"></ng-container>
-  <ng-container *ngIf="categoryControl.value === 'projects' then projectsForm"></ng-container>
+  <ng-container *ngIf="categoryControl.value === 'project' then projectsForm"></ng-container>
   <ng-container *ngTemplateOutlet="bulletForm"></ng-container>
 </mat-dialog-content>
 

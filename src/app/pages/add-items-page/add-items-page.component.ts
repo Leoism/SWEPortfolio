@@ -47,6 +47,16 @@ export class AddItemsPage implements OnInit {
 
         isSuccess = await DatabaseCommunicator.addWorkExperienceEntry(entry);
       }
+      case 'project': {
+        const entry = {
+          name: this.entryGroup.get('projectName').value,
+          year: this.entryGroup.get('projectYear').value,
+          link: this.entryGroup.get('projectLink').value,
+          bullets: this.bullets,
+        };
+
+        isSuccess = await DatabaseCommunicator.addProject(entry);
+      }
     };
 
     if (!isSuccess) alert('There was an error saving your entry');
@@ -67,7 +77,7 @@ export class AddItemsPage implements OnInit {
           });
           break;
         }
-        case 'projects': {
+        case 'project': {
           this.entryGroup = new FormGroup({
             projectName: new FormControl('', []),
             projectLink: new FormControl('', []),

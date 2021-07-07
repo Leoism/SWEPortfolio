@@ -20,7 +20,7 @@ async function retrieveWorkExperience() {
   const res = await pool.query(workExpQuery);
   pool.end();
   const rows = res.rows;
-  return getWorkExperienceArraySorted(rows);
+  return getArrayWithBullets(rows, 'work', sortSeasons);
 }
 
 /**
@@ -119,36 +119,111 @@ async function removeWorkExperienceEntry(workExperienceObj) {
 /**
  * Given the rows of a postgres query result, extracts all information into 
  * a parsable object. 
- * @param {PostgresArr} rows - Query results from postgres.  
+ * @param {PostgresArr} rows - Query results from postgres.
+ * @param {String} type - work, project, or course object
+ * @param {Function} sort - a custom sorter for the array  
  * @returns An array sorted by year of all work experience.
  */
-function getWorkExperienceArraySorted(rows) {
-  const workExperienceObj = {};
+function getArrayWithBullets(rows, type, sort) {
+  const entryObj = {};
   for (let row of rows) {
     // create the entry for the first time
-    if (workExperienceObj[row.id] === undefined) {
-      workExperienceObj[row.id] = {
-        company: row.company,
-        title: row.title,
-        year: row.year,
-        bullets: [row.bullet],
-      };
+    if (entryObj[row.id] === undefined) {
+      if (type === 'work')
+        entryObj[row.id] = {
+          company: row.company,
+          title: row.title,
+          year: row.year,
+          bullets: [row.bullet],
+        };
+      else if (type === 'project')
+        entryObj[row.id] = {
+          name: row.name,
+          link: row.link,
+          year: row.year,
+          bullets: [row.bullet],
+        };
       continue;
     }
 
     // keep adding bullets to the entry
-    workExperienceObj[row.id].bullets.push(row.bullet);
+    entryObj[row.id].bullets.push(row.bullet);
   }
 
-  const workExperienceArr = []
+  const entryArr = []
   // convert the object into an array
-  for (let [key, val] of Object.entries(workExperienceObj))
-    workExperienceArr.push(val);
+  for (let [key, val] of Object.entries(entryObj))
+    entryArr.push(val);
   // sort the array in descending chronological order
-  workExperienceArr.sort(sortSeasons);
-  return workExperienceArr;
+  if (sort != undefined)
+    entryArr.sort(sort);
+  return entryArr;
 }
 
+/**
+ * @returns Returns a list of projects in the database.
+ */
+async function retrieveProjects() {
+  const pool = new Pool({ connectionString });
+  const projectQuery = `
+    SELECT Project.ID, name, year, link, bullet
+    FROM Project
+    LEFT JOIN ProjectBullet ON (Project.ID = ProjectBullet.projectID);
+  `;
+
+  try {
+    const res = await pool.query(projectQuery);
+    pool.end();
+    return getArrayWithBullets(res.rows, 'project', (a, b) => {
+      if (a.year < b.year) return 1;
+      if (a.year > b.year) return -1;
+      return 0;
+    });
+  } catch (err) {
+    pool.end();
+    return [];
+  }
+}
+
+/**
+ * Adds the project, along with its bullets, to the database. Returns true
+ * if the operation was successful. Otherwise, returns false.
+ * @param {Project} project - project object to be added to the database 
+ * @returns Returns true if the project was successfully added
+ */
+async function addProject(project) {
+  const pool = new Pool({ connectionString });
+  const name = project.name;
+  const year = project.year;
+  const link = project.link;
+  const bullets = project.bullets;
+
+  const projectQuery = `
+    INSERT INTO Project(name, year, link)
+      VALUES ($1, $2, $3);
+  `;
+  const projectIDQuery = `
+    SELECT ID FROM Project
+    WHERE name = $1 AND link = $2;
+  `;
+  const bulletQuery = `
+    INSERT INTO ProjectBullet(projectID, bullet)
+      VALUES ($1, $2);
+  `;
+
+  try {
+    await pool.query(projectQuery, [name, year, link]);
+    const projectID = await (await pool.query(projectIDQuery, [name, link])).rows[0].id;
+    for (let bullet of bullets) {
+      await pool.query(bulletQuery, [projectID, bullet]);
+    }
+    pool.end();
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
+}
 /**
  * Given a work experience object, takes the year and sorts by chronological
  * descending order.
@@ -163,7 +238,9 @@ function sortSeasons(workExp1, workExp2) {
 }
 
 module.exports = {
+  addProject,
   addWorkExperience,
   removeWorkExperienceEntries,
+  retrieveProjects,
   retrieveWorkExperience,
 };
