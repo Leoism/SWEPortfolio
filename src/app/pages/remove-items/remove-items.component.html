@@ -3,7 +3,18 @@
 <mat-divider></mat-divider>
 <br>
 <h2>Remove</h2>
+<div>
+  <mat-form-field appearance="outline" class="category-select">
+    <mat-label>Category</mat-label>
+    <mat-select [formControl]="categoryControl">
+      <mat-option value="work">Work Experience</mat-option>
+      <mat-option value="project">Project</mat-option>
+      <mat-option value="course">Coursework</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
 <common-table [isRemoval]="true"
-              [tableEntries]="workExperience"
-              tableType="work"
-              [columnNames]="['Company', 'Title', 'Year']"></common-table>
+              [tableEntries]="tableEntries"
+              [tableType]="currentType"
+              [columnNames]="columnNames"></common-table>

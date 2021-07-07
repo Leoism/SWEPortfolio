@@ -58,4 +58,16 @@ export class DatabaseCommunicator {
 
     return statusCode === 200;
   }
+
+  static async removeProject(projects) {
+    const statusCode = (await fetch(`${this.baseUrl}/remove_project`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projects)
+    })).status;
+
+    return statusCode === 200;
+  }
 };

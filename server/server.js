@@ -41,4 +41,10 @@ app.post('/add_project', async (req, res) => {
   else res.sendStatus(500);
 });
 
+app.post('/remove_project', async (req, res) => {
+  const isSuccess = await databaseApi.removeProjects(req.body);
+  if (isSuccess) res.sendStatus(200)
+  else res.sendStatus(500);
+});
+
 app.listen(8080);

@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { DatabaseCommunicator, WorkExperience } from '../../middleware/DatabaseCommunicator';
+import { DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
 
 type Table = 'work' | 'course' | 'project';
 
@@ -56,6 +56,7 @@ export class CommonTable<T> {
         isSuccess = await DatabaseCommunicator.removeWorkExperienceEntries(this.selection.selected as unknown as WorkExperience[]);
         break;
       case 'project':
+        isSuccess = await DatabaseCommunicator.removeProject(this.selection.selected as unknown as Project);
         break;
       case 'course':
         break;

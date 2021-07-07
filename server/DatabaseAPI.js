@@ -224,6 +224,54 @@ async function addProject(project) {
   }
   return true;
 }
+
+/**
+ * Removes every given project from the database. Returns true if all were
+ * successfully removed. Otherwise, returns false.
+ * @param {Project[]} projects - list of project entries to remove 
+ * @returns Returns true if every project was successfully removed
+ */
+async function removeProjects(projects) {
+  return projects.every((project) => removeProject(project));
+}
+
+/**
+ * Removes the project and its bullets from the database. Returns true if the
+ * project was successfully removed
+ * @param {Project} project - project to remove from the database 
+ * @returns Returns true if the project was successfully removed
+ */
+async function removeProject(project) {
+  const pool = new Pool({ connectionString });
+  const name = project.name;
+  const link = project.link;
+
+  const deleteBulletsQuery = `
+    DELETE FROM ProjectBullet
+    WHERE projectID = (
+      SELECT ID 
+      FROM Project
+      WHERE name = $1 AND link = $2
+    );
+  `;
+
+  const deleteProjectQuery = `
+      DELETE FROM Project
+      WHERE name = $1 AND link = $2;
+  `;
+
+  try {
+    await pool.query(deleteBulletsQuery, [name, link]);
+    await pool.query(deleteProjectQuery, [name, link]);
+    pool.end();
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Given a work experience object, takes the year and sorts by chronological
  * descending order.
@@ -240,6 +288,7 @@ function sortSeasons(workExp1, workExp2) {
 module.exports = {
   addProject,
   addWorkExperience,
+  removeProjects,
   removeWorkExperienceEntries,
   retrieveProjects,
   retrieveWorkExperience,
