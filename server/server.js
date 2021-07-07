@@ -12,7 +12,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/get_work_experience', async (req, res) => {
-  console.log(await databaseApi.retrieveWorkExperience());
   res.json(await databaseApi.retrieveWorkExperience());
 });
 

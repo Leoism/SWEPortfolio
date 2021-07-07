@@ -1,8 +1,38 @@
+<button *ngIf="isRemoval"
+        mat-stroked-button
+        (click)="removeEntries()">Remove {{selection.selected.length}} Entries</button>
+
 <table mat-table class="mat-elevation-z1" [dataSource]="workExperience"
        multiTemplateDataRows>
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnNames">
-    <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-    <td mat-cell *matCellDef="let work">{{work[column.toLowerCase()]}}</td>
+
+  <!-- Run to add column name 'select' -->
+  <ng-container *ngIf="isRemoval === true ? addCheckboxColumn() : false" matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Render checkboxes only when we are in removal mode -->
+  <ng-container *ngIf="isRemoval">
+    <!-- Splice one because we do not want a duplicate matColumnDef for select -->
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnNames | slice:1">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let work">{{work[column.toLowerCase()]}}</td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!isRemoval">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnNames">
+      <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+      <td mat-cell *matCellDef="let work">{{work[column.toLowerCase()]}}</td>
+    </ng-container>
   </ng-container>
 
   <ng-container matColumnDef="expandedDetail">
@@ -17,7 +47,7 @@
       </div>
     </td>
   </ng-container>
-
+  
   <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
   <tr mat-row *matRowDef="let work; columns: columnNames"
       class="work-row"
