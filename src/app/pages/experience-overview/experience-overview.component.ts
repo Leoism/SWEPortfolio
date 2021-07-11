@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { DatabaseCommunicator, WorkExperience } from '../../middleware/DatabaseCommunicator';
+import { DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
 import { AddItemsPage } from '../add-items-page/add-items-page.component';
 
 @Component({
@@ -38,13 +38,16 @@ export class ExperienceOverview implements AfterViewInit {
   ];
 
   workExperience: MatTableDataSource<WorkExperience> = new MatTableDataSource<WorkExperience>([]);
-
+  projects: MatTableDataSource<Project> = new MatTableDataSource<Project>([]);
 
   constructor(public dialog: MatDialog) { }
 
   ngAfterViewInit() {
     DatabaseCommunicator.getWorkExperienceEntries().then((entries) => {
       this.workExperience = new MatTableDataSource<WorkExperience>(entries);
+    });
+    DatabaseCommunicator.getProjects().then((entries) => {
+      this.projects = new MatTableDataSource<Project>(entries);
     });
   }
 

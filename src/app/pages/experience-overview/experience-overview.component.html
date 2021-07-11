@@ -11,6 +11,16 @@
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
+      <mat-panel-title>Projects</mat-panel-title>
+      <mat-panel-description>All relevant projects I've worked on</mat-panel-description>
+    </mat-expansion-panel-header>
+    <common-table [tableEntries]="projects"
+                  tableType="project"
+                  [columnNames]="['Name', 'Link', 'Year']">
+    </common-table>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
       <mat-panel-title>Coursework</mat-panel-title>
       <mat-panel-description>All relevant coursework I've taken in college</mat-panel-description>
     </mat-expansion-panel-header>
