@@ -12,6 +12,15 @@ export interface Project {
   bullets: string[],
 }
 
+interface Course {
+  name: string,
+  status?: string,
+}
+export interface CourseCategory {
+  categoryName: string,
+  courses: Course[],
+}
+
 export class DatabaseCommunicator {
   static baseUrl: string = 'http://localhost:8080';
 
@@ -43,7 +52,7 @@ export class DatabaseCommunicator {
   }
 
   static async getProjects() {
-    return (await fetch(`${this.baseUrl}/get_projects`)).json()
+    return (await fetch(`${this.baseUrl}/get_projects`)).json();
   }
 
   static async addProject(project) {
@@ -66,6 +75,26 @@ export class DatabaseCommunicator {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(projects)
+    })).status;
+
+    return statusCode === 200;
+  }
+
+  static async getCategoryList() {
+    return (await fetch(`${this.baseUrl}/get_categories`)).json();
+  }
+
+  static async getCourses() {
+    return (await fetch(`${this.baseUrl}/get_courses`)).json();
+  }
+
+  static async addCourses(category, courses) {
+    const statusCode = (await fetch(`${this.baseUrl}/add_courses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category, courses })
     })).status;
 
     return statusCode === 200;

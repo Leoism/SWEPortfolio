@@ -273,6 +273,135 @@ async function removeProject(project) {
 }
 
 /**
+ * @returns Returns an array of all current categories in the database
+ */
+async function retrieveCourseCategories() {
+  const courseCategoriesQuery = `
+    SELECT CategoryName
+    FROM CourseCategory;
+  `;
+
+  let categoryArr = [];
+  const pool = new Pool({ connectionString });
+  try {
+    const res = await pool.query(courseCategoriesQuery);
+    for (let row of res.rows) {
+      categoryArr.push(row.categoryname);
+    }
+    pool.end();
+  } catch (err) {
+    pool.end();
+    console.log(err);
+    return [];
+  }
+  return categoryArr;
+}
+
+/**
+ * Adds the given courses array into the database under the category provided.
+ * If the category does not exist, it creates the category before adding the
+ * courses to the database.
+ * @param {String} category - a string representation of the category to add the courses to
+ * @param {CourseEntry[]} courses - an array of courses to add to the database
+ * @returns Returns true if the operation was successful
+ */
+async function addCourses(category, courses) {
+  const pool = new Pool({ connectionString });
+  const createCategoryQuery = `
+    INSERT INTO CourseCategory(CategoryName)
+    VALUES ($1);
+  `;
+  const addCourseEntryQuery = `
+    INSERT INTO CourseEntry(CourseCategoryID, Name, Status)
+    VALUES (
+      (
+        SELECT ID
+        FROM CourseCategory
+        WHERE categoryName = $1
+      ), $2, $3
+    );
+  `;
+  try {
+    const currentCategories = await retrieveCourseCategories();
+    if (!currentCategories.includes(category)) {
+      await pool.query(createCategoryQuery, [category]);
+    }
+    for (let course of courses) {
+      await pool.query(addCourseEntryQuery, [category, course.name, course.status]);
+    }
+  } catch (err) {
+    pool.end();
+    console.log(err);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * @returns Returns an array containing the course category and an array of all courses
+ */
+async function retrieveAllCourses() {
+  const coursesCategoriesQuery = `
+    SELECT CourseCategory.ID, CategoryName, Name, Status
+    FROM CourseCategory
+      LEFT JOIN CourseEntry ON (CourseEntry.CourseCategoryID = CourseCategory.ID);
+  `;
+  const pool = new Pool({ connectionString });
+  try {
+    const res = await pool.query(coursesCategoriesQuery);
+    pool.end();
+    return toCategoryArr(res.rows)
+  } catch (err) {
+    pool.end();
+    console.log(err);
+    return [];
+  }
+}
+
+/**
+ * Converts postgres rows into a category array. Each element contains the
+ * category name and all courses under that category.
+ * @param {PostgresRow[]} rows - a postgres row containing all categories and
+ *                               courses
+ * @returns Returns an array containing all categories and courses associated
+ *          with it.
+ */
+function toCategoryArr(rows) {
+  const categoryObject = {};
+  for (let row of rows) {
+    if (categoryObject[row.id] == undefined) {
+      categoryObject[row.id] = {
+        categoryName: row.categoryname,
+        courses: [{
+          name: row.name,
+          status: row.status
+        }]
+      }
+      continue;
+    }
+    categoryObject[row.id].courses.push({
+      name: row.name,
+      status: row.status,
+    });
+  }
+
+  for (let key of Object.keys(categoryObject))
+    categoryObject[key].courses.sort((a, b) => {
+      if (a.name > b.name) return 1;
+      else if (b.name < a.name) return -1;
+      return 0;
+    });
+
+  const categoryArr = []
+  // convert the object into an array
+  for (let [key, val] of Object.entries(categoryObject))
+    categoryArr.push(val);
+
+  return categoryArr;
+
+}
+
+/**
  * Given a work experience object, takes the year and sorts by chronological
  * descending order.
  * @param {String} workExp1 - work experience object containing a year  
@@ -286,10 +415,13 @@ function sortSeasons(workExp1, workExp2) {
 }
 
 module.exports = {
+  addCourses,
   addProject,
   addWorkExperience,
   removeProjects,
   removeWorkExperienceEntries,
+  retrieveAllCourses,
+  retrieveCourseCategories,
   retrieveProjects,
   retrieveWorkExperience,
 };

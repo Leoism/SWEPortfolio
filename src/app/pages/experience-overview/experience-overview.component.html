@@ -25,14 +25,9 @@
       <mat-panel-description>All relevant coursework I've taken in college</mat-panel-description>
     </mat-expansion-panel-header>
     <div class="flex-container">
-      <category-list title="Programming Courses"
-                     [items]="programmingCourses"></category-list>
-      <category-list title="Game Development Courses"
-                     [items]="gameDevelopmentCourses"></category-list>
-      <category-list title="Conceptual Courses"
-                     [items]="conceptualCourses"></category-list>
-      <category-list title="Miscellaneous Courses"
-                     [items]="miscCourses"></category-list>
+      <category-list *ngFor="let category of categories"
+                     [title]=category.categoryName
+                     [items]=category.courses></category-list>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

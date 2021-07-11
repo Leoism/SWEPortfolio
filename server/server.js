@@ -47,4 +47,18 @@ app.post('/remove_project', async (req, res) => {
   else res.sendStatus(500);
 });
 
+app.get('/get_categories', async (req, res) => {
+  res.json(await databaseApi.retrieveCourseCategories());
+});
+
+app.post('/add_courses', async (req, res) => {
+  const isSuccess = await databaseApi.addCourses(req.body.category, req.body.courses);
+  if (isSuccess) res.sendStatus(200)
+  else res.sendStatus(500);
+});
+
+app.get('/get_courses', async (req, res) => {
+  res.json(await databaseApi.retrieveAllCourses());
+});
+
 app.listen(8080);

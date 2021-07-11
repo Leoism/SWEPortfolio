@@ -5,10 +5,10 @@
   <mat-card-content class="category-content">
     <mat-list>
       <mat-list-item *ngFor="let item of items">
-        <p *ngIf="!item.tooltip; else tooltipTemplate">{{item.name}}</p>
+        <p *ngIf="!item.status; else tooltipTemplate">{{item.name}}</p>
         <ng-template #tooltipTemplate>
             <p #tooltip="matTooltip"
-               matTooltip={{item.tooltip}}
+               matTooltip={{item.status}}
                [matTooltipPosition]="position.value"
             >{{item.name}} <mat-icon class="info-label">info</mat-icon></p>
         </ng-template>

@@ -32,3 +32,16 @@ CREATE TABLE ProjectBullet (
   FOREIGN KEY (ProjectID) REFERENCES Project(ID)
 );
 
+CREATE TABLE CourseCategory (
+  ID              SERIAL         PRIMARY KEY,
+  CategoryName    VARCHAR(128)   UNIQUE NOT NULL
+);
+
+CREATE TABLE CourseEntry (
+  ID                SERIAL        PRIMARY KEY,
+  CourseCategoryID  INT           NOT NULL,
+  Name              VARCHAR(256)  NOT NULL,
+  Status            VARCHAR(32),
+
+  FOREIGN KEY (CourseCategoryID) REFERENCES CourseCategory(ID)
+);
