@@ -12,7 +12,7 @@ export interface Project {
   bullets: string[],
 }
 
-interface Course {
+export interface Course {
   name: string,
   status?: string,
 }

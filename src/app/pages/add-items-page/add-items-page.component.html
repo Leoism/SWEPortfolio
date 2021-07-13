@@ -11,7 +11,7 @@
   <!-- Only render the appropriate form when they are selected -->
   <ng-container *ngIf="categoryControl.value === 'work' then workForm"></ng-container>
   <ng-container *ngIf="categoryControl.value === 'project' then projectsForm"></ng-container>
-  <ng-container *ngTemplateOutlet="bulletForm"></ng-container>
+  <ng-container *ngIf="categoryControl.value === 'course' then courseForm"></ng-container>
 </mat-dialog-content>
 
 <ng-template #workForm>
@@ -32,6 +32,7 @@
       <mat-icon matSuffix>calendar_today</mat-icon>
     </mat-form-field>
   </form>
+  <ng-container *ngTemplateOutlet="bulletForm"></ng-container>
 </ng-template>
 
 <ng-template #projectsForm>
@@ -52,6 +53,57 @@
       <mat-icon matSuffix>calendar_today</mat-icon>
     </mat-form-field>
   </form>
+  <ng-container *ngTemplateOutlet="bulletForm"></ng-container>
+</ng-template>
+
+<ng-template #courseForm>
+  <form [formGroup]="entryGroup" class="flex-container">
+    <!-- Display categories available or make a new one -->
+    <mat-form-field appearance="outline" class="category-select flex-item">
+      <mat-label>Course Category</mat-label>
+      <mat-select [formControl]="courseCategoryControl">
+        <mat-option *ngFor="let category of courseCategories"
+                    [value]=category>{{category}}</mat-option>
+        <mat-option value="New Category">New Category</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- Category name input for when it is selected -->
+    <mat-form-field *ngIf="courseCategoryControl.value === 'New Category'"
+                    appearance="outline" class="flex-item">
+      <mat-label>New Category Name</mat-label>
+      <input matInput formControlName="newCategory">
+      <mat-icon matSuffix>text_fields</mat-icon>
+    </mat-form-field>
+    <!-- Name of the course to add -->
+    <mat-form-field appearance="outline" class="flex-item">
+      <mat-label>Course</mat-label>
+      <input matInput #courseInput formControlName="courseName">
+      <mat-error>Course name cannot be empty</mat-error>
+    </mat-form-field>
+    <!-- Statuses are optional and appear as a tooltip when displayed -->
+    <mat-form-field appearance="outline" class="flex-item-min">
+      <mat-label>Status</mat-label>
+      <input matInput #courseStatus formControlName="courseStatus">
+      <mat-hint>Optional. e.g: in progress</mat-hint>
+    </mat-form-field>
+    <button mat-stroked-button class="course-add-button"
+            (click)="addCourse(courseInput.value, courseStatus.value)"
+      [disabled]="courseInput.value.trim() === ''">
+      <mat-icon>add</mat-icon>
+    </button>
+  </form>
+  <div>
+    <!-- All the courses to be added -->
+    <h3>Courses:</h3>
+    <mat-selection-list #courseList>
+      <mat-list-option *ngFor="let course of courses" [value]="course">{{course.status.length > 0 ? course.name + ' | status: ' + course.status : course.name}}</mat-list-option>
+    </mat-selection-list>
+    <div>
+      <button mat-button (click)="deleteCourses(courseList.selectedOptions.selected)">
+        Delete {{courseList.selectedOptions.selected.length}} courses</button>
+      <button mat-button (click)="saveEntry()" [disabled]="isFormEmpty">Save Entry</button>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #bulletForm>

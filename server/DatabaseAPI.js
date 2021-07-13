@@ -323,7 +323,9 @@ async function addCourses(category, courses) {
   `;
   try {
     const currentCategories = await retrieveCourseCategories();
+    // check if the category exists
     if (!currentCategories.includes(category)) {
+      // then create it if it does not exist
       await pool.query(createCategoryQuery, [category]);
     }
     for (let course of courses) {

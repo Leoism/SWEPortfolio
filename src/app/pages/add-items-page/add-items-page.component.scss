@@ -28,12 +28,24 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
 
     .flex-item {
       flex: 1 1 45%;
       height: auto;
       padding: 0 1%;
+    }
+
+    .flex-item-min {
+      flex-grow: 0;
+      flex-basis: auto;
+      padding: 0 1%;
+    }
+
+    .course-add-button {
+      height: 59px;
+      align-self: flex-start;
+      margin: 4px 0;
     }
   }
 }
