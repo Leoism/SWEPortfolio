@@ -59,6 +59,8 @@ export class CommonTable<T> {
         isSuccess = await DatabaseCommunicator.removeProject(this.selection.selected as unknown as Project);
         break;
       case 'course':
+        const categoryNames = this.selection.selected.map((selection: any) => selection.name);
+        isSuccess = await DatabaseCommunicator.removeCourses(categoryNames);
         break;
     }
     if (!isSuccess) {

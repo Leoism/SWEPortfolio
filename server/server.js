@@ -37,13 +37,13 @@ app.get('/get_projects', async (req, res) => {
 
 app.post('/add_project', async (req, res) => {
   const isSuccess = await databaseApi.addProject(req.body);
-  if (isSuccess) res.sendStatus(200)
+  if (isSuccess) res.sendStatus(200);
   else res.sendStatus(500);
 });
 
 app.post('/remove_project', async (req, res) => {
   const isSuccess = await databaseApi.removeProjects(req.body);
-  if (isSuccess) res.sendStatus(200)
+  if (isSuccess) res.sendStatus(200);
   else res.sendStatus(500);
 });
 
@@ -53,7 +53,13 @@ app.get('/get_categories', async (req, res) => {
 
 app.post('/add_courses', async (req, res) => {
   const isSuccess = await databaseApi.addCourses(req.body.category, req.body.courses);
-  if (isSuccess) res.sendStatus(200)
+  if (isSuccess) res.sendStatus(200);
+  else res.sendStatus(500);
+});
+
+app.post('/remove_courses', async (req, res) => {
+  const isSuccess = await databaseApi.removeCategories(req.body);
+  if (isSuccess) res.sendStatus(200);
   else res.sendStatus(500);
 });
 

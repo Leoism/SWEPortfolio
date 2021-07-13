@@ -99,4 +99,15 @@ export class DatabaseCommunicator {
 
     return statusCode === 200;
   }
+
+  static async removeCourses(categories) {
+    const statusCode = (await fetch(`${this.baseUrl}/remove_courses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(categories),
+    })).status;
+    return statusCode === 200;
+  }
 };

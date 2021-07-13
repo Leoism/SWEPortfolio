@@ -361,6 +361,47 @@ async function retrieveAllCourses() {
 }
 
 /**
+ * Removes every given category from the database. Returns true if all were
+ * successfully removed. Otherwise, returns false.
+ * @param {string[]} courses - list of category names to remove 
+ * @returns Returns true if every category was successfully removed
+ */
+async function removeCategories(categories) {
+  return categories.every((category) => removeCategory(category));
+}
+
+/**
+ * Removes the category, along with all associates courses, from the database.
+ * @param {String} categoryName - category to remove 
+ * @returns True if the operation was successful
+ */
+async function removeCategory(categoryName) {
+  const deleteCoursesQuery = `
+    DELETE FROM CourseEntry
+    WHERE CourseCategoryID = (
+      SELECT id
+      FROM CourseCategory
+      WHERE categoryName = $1
+    );
+  `;
+  const deleteCategoryQuery = `
+    DELETE FROM CourseCategory
+    WHERE categoryName = $1;
+  `;
+  const pool = new Pool({ connectionString });
+  try {
+    await pool.query(deleteCoursesQuery, [categoryName]);
+    await pool.query(deleteCategoryQuery, [categoryName]);
+    pool.end();
+    return true;
+  } catch (err) {
+    pool.end();
+    console.log(err);
+    return false;
+  }
+}
+
+/**
  * Converts postgres rows into a category array. Each element contains the
  * category name and all courses under that category.
  * @param {PostgresRow[]} rows - a postgres row containing all categories and
@@ -420,6 +461,7 @@ module.exports = {
   addCourses,
   addProject,
   addWorkExperience,
+  removeCategories,
   removeProjects,
   removeWorkExperienceEntries,
   retrieveAllCourses,
