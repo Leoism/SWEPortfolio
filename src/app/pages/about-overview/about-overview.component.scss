@@ -1,0 +1,36 @@
+mat-card {
+  margin: 0 auto;
+  width: 512px;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  p {
+    display: flex;
+    .about-entry-title {
+      flex-basis: 25%;
+      flex-grow: 1;
+      flex-shrink: 1;
+      font-size: 18px;
+    }
+
+    .about-entry-value {
+      flex-basis: 75%;
+      flex-grow: 1;
+      flex-shrink: 1;
+      font-size: 18px;
+    }
+  }
+}
+
+.about-url-button {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  padding: 12px;
+
+  a:hover {
+    opacity: 0.55;
+  }
+}
