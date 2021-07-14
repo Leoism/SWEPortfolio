@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
+import { AboutEntry, AboutUrl, DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
 
 @Component({
   selector: 'remove-items',
@@ -47,6 +47,22 @@ export class RemoveItems implements AfterViewInit {
           this.tableEntries = new MatTableDataSource(transformedEntries);
           this.currentType = 'course';
           this.columnNames = ['Name'];
+        });
+      }
+
+      if (value === 'about-entries') {
+        DatabaseCommunicator.getAboutInformation().then((aboutInfo) => {
+          this.tableEntries = new MatTableDataSource<AboutEntry>(aboutInfo.entries);
+          this.currentType = 'about-entries';
+          this.columnNames = ['Title', 'Value'];
+        });
+      }
+
+      if (value === 'about-urls') {
+        DatabaseCommunicator.getAboutInformation().then((aboutInfo) => {
+          this.tableEntries = new MatTableDataSource<AboutUrl>(aboutInfo.urls);
+          this.currentType = 'about-urls';
+          this.columnNames = ['Url', 'Image', 'Alt'];
         });
       }
     })

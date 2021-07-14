@@ -2,9 +2,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
+import { AboutEntry, AboutUrl, DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
 
-type Table = 'work' | 'course' | 'project';
+type Table = 'work' | 'course' | 'project' | 'about-entries' | 'about-urls';
 
 @Component({
   selector: 'common-table',
@@ -61,6 +61,12 @@ export class CommonTable<T> {
       case 'course':
         const categoryNames = this.selection.selected.map((selection: any) => selection.name);
         isSuccess = await DatabaseCommunicator.removeCourses(categoryNames);
+        break;
+      case 'about-entries':
+        isSuccess = await DatabaseCommunicator.removeAboutEntries(this.selection.selected as unknown as AboutEntry);
+        break;
+      case 'about-urls':
+        isSuccess = await DatabaseCommunicator.removeAboutUrls(this.selection.selected as unknown as AboutUrl);
         break;
     }
     if (!isSuccess) {
