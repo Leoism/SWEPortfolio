@@ -445,6 +445,142 @@ function toCategoryArr(rows) {
 }
 
 /**
+ * {
+ *   entries: [{
+ *       value: ''.
+ *       title: '',
+ *   }],
+ *   urls: [{
+ *       url: '',
+ *       image: '',
+ *       alt: '',
+ *   }]
+ * }
+ * @param {} about - object containing entries and url buttons
+ * @return Returns true if information was added successfully
+ */
+async function addAboutInformation(about) {
+  const addAboutEntryQuery = `
+    INSERT INTO AboutEntry(title, value)
+      VALUES ($1, $2);
+  `;
+  const addAboutUrlQuery = `
+    INSERT INTO AboutUrl(url, image, alt)
+      VALUES ($1, $2, $3);
+  `;
+
+  const pool = new Pool({ connectionString });
+  try {
+    for (let entry of about.entries)
+      await pool.query(addAboutEntryQuery, [entry.title, entry.value]);
+    for (let url of about.urls)
+      await pool.query(addAboutUrlQuery, [url.url, url.image, url.alt]);
+    await pool.end();
+    return true;
+  } catch (err) {
+    console.log(err);
+    await pool.end();
+    return false;
+  }
+}
+
+/**
+ * Retrieves all about information from the database.
+ * @returns An object containing all entries and urls
+ */
+async function retrieveAboutInformation() {
+  const aboutEntryQuery = `
+    SELECT value, title
+    FROM AboutEntry;
+  `;
+  const aboutUrlQuery = `
+    SELECT url, image, alt
+    FROM AboutUrl;
+  `;
+  const pool = new Pool({ connectionString });
+  const aboutInfoObj = { entries: [], urls: [] };
+  try {
+    const entries = await pool.query(aboutEntryQuery);
+    const urls = await pool.query(aboutUrlQuery);
+    for (let row of entries.rows) {
+      aboutInfoObj.entries.push({
+        value: row.value,
+        title: row.title,
+      });
+    }
+    for (let row of urls.rows) {
+      aboutInfoObj.urls.push({
+        url: row.url,
+        image: row.image,
+        alt: row.alt
+      });
+    }
+    await pool.end();
+    return aboutInfoObj;
+  } catch (err) {
+    console.log(err);
+    await pool.end();
+    return { entries: [], urls: [] };
+  }
+}
+
+/**
+ * @param {Array} entries - an array of AboutEntry objects 
+ * @returns Returns true if every entry was successfully removed
+ */
+async function removeAboutEntries(entries) {
+  return entries.every((entry) => removeAboutEntry(entry));
+}
+
+/**
+ * @param {AboutEntry} entry - about entry to remove 
+ * @returns Returns true if the entry was successfully removed
+ */
+async function removeAboutEntry(entry) {
+  const removeAboutEntryQuery = `
+    DELETE FROM AboutEntry
+    WHERE value = $1 and title = $2;
+  `;
+  const pool = new Pool({ connectionString });
+  try {
+    await pool.query(removeAboutEntryQuery, [entry.value, entry.title]);
+    return true;
+  } catch (err) {
+    console.log(err);
+    await pool.end();
+    return false;
+  }
+}
+
+/**
+ * @param {Array} urls - an array of AboutUrl objects 
+ * @returns Returns true if every url was successfully removed
+ */
+async function removeAboutUrls(urls) {
+  return urls.every((url) => removeAboutUrl(url));
+}
+
+/**
+ * @param {AboutUrl} url - about url to remove 
+ * @returns Returns true if the url was successfully removed
+ */
+async function removeAboutUrl(url) {
+  const removeAboutUrlQuery = `
+    DELETE FROM AboutUrl
+    WHERE url = $1;
+  `;
+  const pool = new Pool({ connectionString });
+  try {
+    await pool.query(removeAboutUrlQuery, [url.url]);
+    return true;
+  } catch (err) {
+    console.log(err);
+    await pool.end();
+    return false;
+  }
+}
+
+/**
  * Given a work experience object, takes the year and sorts by chronological
  * descending order.
  * @param {String} workExp1 - work experience object containing a year  
@@ -458,12 +594,16 @@ function sortSeasons(workExp1, workExp2) {
 }
 
 module.exports = {
+  addAboutInformation,
   addCourses,
   addProject,
   addWorkExperience,
+  removeAboutEntries,
+  removeAboutUrls,
   removeCategories,
   removeProjects,
   removeWorkExperienceEntries,
+  retrieveAboutInformation,
   retrieveAllCourses,
   retrieveCourseCategories,
   retrieveProjects,

@@ -45,3 +45,18 @@ CREATE TABLE CourseEntry (
 
   FOREIGN KEY (CourseCategoryID) REFERENCES CourseCategory(ID)
 );
+
+CREATE TABLE AboutEntry (
+  ID      SERIAL    PRIMARY KEY,
+  Title   TEXT      NOT NULL,
+  Value   TEXT      NOT NULL,
+
+  UNIQUE (Title, Value)
+);
+
+CREATE TABLE AboutUrl (
+  ID      SERIAL    PRIMARY KEY,
+  Url     TEXT      UNIQUE NOT NULL,
+  Image   TEXT      NOT NULL,
+  Alt     VARCHAR(512)
+);

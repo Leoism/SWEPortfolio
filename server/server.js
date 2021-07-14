@@ -67,4 +67,26 @@ app.get('/get_courses', async (req, res) => {
   res.json(await databaseApi.retrieveAllCourses());
 });
 
+app.post('/add_about_information', async (req, res) => {
+  const isSuccess = await databaseApi.addAboutInformation(req.body);
+  if (isSuccess) res.sendStatus(200);
+  else res.sendStatus(500);
+});
+
+app.post('/remove_about_entries', async (req, res) => {
+  const isSuccess = await databaseApi.removeAboutEntries(req.body);
+  if (isSuccess) res.sendStatus(200);
+  else res.sendStatus(500);
+});
+
+app.post('/remove_about_urls', async (req, res) => {
+  const isSuccess = await databaseApi.removeAboutUrls(req.body);
+  if (isSuccess) res.sendStatus(200);
+  else res.sendStatus(500);
+});
+
+app.get('/get_about_information', async (req, res) => {
+  res.json(await databaseApi.retrieveAboutInformation());
+});
+
 app.listen(8080);
