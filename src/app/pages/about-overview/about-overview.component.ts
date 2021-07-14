@@ -1,23 +1,21 @@
-import { Component } from '@angular/core';
-
-interface AboutEntry {
-  title: string; // title of the entry
-  value: string; // text related to the title
-}
-
-interface AboutUrl {
-  url: string; // url to redirect to 
-  image: string; // image url to display
-  alt?: string; // alt text for the image
-}
+import { Component, OnInit } from '@angular/core';
+import { AboutEntry, AboutUrl, DatabaseCommunicator } from '../../middleware/DatabaseCommunicator';
 
 @Component({
   selector: 'about-overview',
   templateUrl: './about-overview.component.html',
   styleUrls: ['./about-overview.component.scss']
 })
-export class AboutOverview {
+export class AboutOverview implements OnInit {
   aboutEntries: AboutEntry[] = [];
   profileImage: string = '';
   aboutUrls: AboutUrl[] = [];
+
+  ngOnInit() {
+    DatabaseCommunicator.getAboutInformation().then((info) => {
+      this.aboutEntries = info.entries;
+      this.aboutUrls = info.urls;
+      this.profileImage = info.profile.value;
+    })
+  }
 }

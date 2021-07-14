@@ -21,6 +21,17 @@ export interface CourseCategory {
   courses: Course[],
 }
 
+export interface AboutEntry {
+  title: string; // title of the entry
+  value: string; // text related to the title
+}
+
+export interface AboutUrl {
+  url: string; // url to redirect to 
+  image: string; // image url to display
+  alt?: string; // alt text for the image
+}
+
 export class DatabaseCommunicator {
   static baseUrl: string = 'http://localhost:8080';
 
@@ -108,6 +119,46 @@ export class DatabaseCommunicator {
       },
       body: JSON.stringify(categories),
     })).status;
+    return statusCode === 200;
+  }
+
+  static async getAboutInformation() {
+    return (await fetch(`${this.baseUrl}/get_about_information`)).json();
+  }
+
+  static async addAboutInformation(aboutInfo) {
+    const statusCode = (await fetch(`${this.baseUrl}/add_about_information`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(aboutInfo),
+    })).status;
+
+    return statusCode === 200;
+  }
+
+  static async removeAboutEntries(entries) {
+    const statusCode = (await fetch(`${this.baseUrl}/remove_about_entries`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(entries),
+    })).status;
+
+    return statusCode === 200;
+  }
+
+  static async removeAboutUrls(urls) {
+    const statusCode = (await fetch(`${this.baseUrl}/remove_about_urls`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(urls),
+    })).status;
+
     return statusCode === 200;
   }
 };

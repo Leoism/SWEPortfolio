@@ -469,10 +469,27 @@ async function addAboutInformation(about) {
       VALUES ($1, $2, $3);
   `;
 
+  const addAboutProfileQuery = `
+    SELECT id
+    FROM AboutEntry
+    WHERE title = 'Profile';
+  `;
+
+  const updateProfileQuery = `
+    UPDATE AboutEntry
+    SET value = $1
+    WHERE title = $2;
+  `;
+
   const pool = new Pool({ connectionString });
   try {
-    for (let entry of about.entries)
-      await pool.query(addAboutEntryQuery, [entry.title, entry.value]);
+    const profileExists = await pool.query(addAboutProfileQuery);
+    for (let entry of about.entries) {
+      if (entry.title === 'Profile' && profileExists.rowCount > 0) {
+        await pool.query(updateProfileQuery, [entry.value, entry.title]);
+      } else
+        await pool.query(addAboutEntryQuery, [entry.title, entry.value]);
+    }
     for (let url of about.urls)
       await pool.query(addAboutUrlQuery, [url.url, url.image, url.alt]);
     await pool.end();
@@ -491,17 +508,27 @@ async function addAboutInformation(about) {
 async function retrieveAboutInformation() {
   const aboutEntryQuery = `
     SELECT value, title
-    FROM AboutEntry;
+    FROM AboutEntry
+    WHERE title != 'Profile';
   `;
   const aboutUrlQuery = `
     SELECT url, image, alt
     FROM AboutUrl;
   `;
+
+  const profilePicQuery = `
+    SELECT value, title
+    FROM AboutEntry
+    WHERE title = 'Profile';
+  `;
+
   const pool = new Pool({ connectionString });
-  const aboutInfoObj = { entries: [], urls: [] };
+  const aboutInfoObj = { entries: [], urls: [], profile: '' };
   try {
     const entries = await pool.query(aboutEntryQuery);
     const urls = await pool.query(aboutUrlQuery);
+    const profile = await pool.query(profilePicQuery);
+
     for (let row of entries.rows) {
       aboutInfoObj.entries.push({
         value: row.value,
@@ -515,6 +542,10 @@ async function retrieveAboutInformation() {
         alt: row.alt
       });
     }
+    if (profile.rowCount > 0) {
+      aboutInfoObj.profile = profile.rows[0];
+    }
+
     await pool.end();
     return aboutInfoObj;
   } catch (err) {
