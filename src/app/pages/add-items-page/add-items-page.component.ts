@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatListOption } from '@angular/material/list';
-import { Course, CourseCategory, DatabaseCommunicator } from '../../middleware/DatabaseCommunicator';
+import { AboutEntry, AboutUrl, Course, CourseCategory, DatabaseCommunicator } from '../../middleware/DatabaseCommunicator';
 
 @Component({
   selector: 'add-items-page',
@@ -16,6 +16,8 @@ export class AddItemsPage implements OnInit, AfterViewInit {
   bulletControl: FormControl = new FormControl('', [Validators.required]);
   bullets: string[] = [];
   courses: Course[] = [];
+  aboutUrls: AboutUrl[] = [];
+  aboutEntries: AboutEntry[] = [];
 
   isFormEmpty: boolean = true;
   courseCategories: CourseCategory[] = [];
@@ -39,6 +41,40 @@ export class AddItemsPage implements OnInit, AfterViewInit {
     this.courses.push({ name, status });
     this.entryGroup.get('courseName').setValue('');
     this.entryGroup.get('courseStatus').setValue('');
+  }
+
+  addAboutEntry() {
+    const title = this.entryGroup.get('aboutEntryTitle');
+    const value = this.entryGroup.get('aboutEntryValue');
+    this.aboutEntries.push({ title: title.value, value: value.value });
+    title.setValue('');
+    value.setValue('');
+  }
+
+  addAboutUrl() {
+    const url = this.entryGroup.get('aboutUrlUrl');
+    const imageUrl = this.entryGroup.get('aboutUrlImage');
+    const altText = this.entryGroup.get('aboutUrlAlt');
+    this.aboutUrls.push({
+      url: url.value,
+      image: imageUrl.value,
+      alt: altText.value,
+    });
+    url.setValue('');
+    imageUrl.setValue('');
+    altText.setValue('');
+  }
+
+  deleteAboutEntries(entriesToDelete: MatListOption[]) {
+    entriesToDelete.forEach((entry) => {
+      this.aboutEntries.splice(this.aboutEntries.indexOf(entry.value), 1);
+    });
+  }
+
+  deleteAboutUrls(urlsToDelete: MatListOption[]) {
+    urlsToDelete.forEach((url) => {
+      this.aboutUrls.splice(this.aboutUrls.indexOf(url.value), 1);
+    });
   }
 
   /**
@@ -90,6 +126,19 @@ export class AddItemsPage implements OnInit, AfterViewInit {
         isSuccess = await DatabaseCommunicator.addCourses(entry.category, entry.courses);
         break;
       }
+      case 'about': {
+        const aboutInfo = {
+          entries: [...this.aboutEntries],
+          urls: this.aboutUrls,
+        };
+
+        const profile = this.entryGroup.get('aboutProfile');
+        if (profile.value) {
+          aboutInfo.entries.push({ title: 'Profile', value: profile.value });
+        }
+        isSuccess = await DatabaseCommunicator.addAboutInformation(aboutInfo);
+        break;
+      }
     };
 
     if (!isSuccess) alert('There was an error saving your entry');
@@ -124,7 +173,19 @@ export class AddItemsPage implements OnInit, AfterViewInit {
             newCategory: new FormControl('', []),
             courseName: new FormControl('', []),
             courseStatus: new FormControl('', []),
-          })
+          });
+          break;
+        }
+        case 'about': {
+          this.entryGroup = new FormGroup({
+            aboutEntryTitle: new FormControl('', [Validators.required]),
+            aboutEntryValue: new FormControl('', [Validators.required]),
+            aboutProfile: new FormControl('', []),
+            aboutUrlUrl: new FormControl('', [Validators.required]),
+            aboutUrlImage: new FormControl('', [Validators.required]),
+            aboutUrlAlt: new FormControl('', []),
+          });
+          break;
         }
       };
 

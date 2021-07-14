@@ -6,12 +6,14 @@
       <mat-option value="work">Work Experience</mat-option>
       <mat-option value="project">Project</mat-option>
       <mat-option value="course">Coursework</mat-option>
+      <mat-option value="about">About</mat-option>
     </mat-select>
   </mat-form-field>
   <!-- Only render the appropriate form when they are selected -->
   <ng-container *ngIf="categoryControl.value === 'work' then workForm"></ng-container>
   <ng-container *ngIf="categoryControl.value === 'project' then projectsForm"></ng-container>
   <ng-container *ngIf="categoryControl.value === 'course' then courseForm"></ng-container>
+  <ng-container *ngIf="categoryControl.value === 'about' then aboutForm"></ng-container>
 </mat-dialog-content>
 
 <ng-template #workForm>
@@ -104,6 +106,78 @@
       <button mat-button (click)="saveEntry()" [disabled]="isFormEmpty">Save Entry</button>
     </div>
   </div>
+</ng-template>
+
+<ng-template #aboutForm>
+  <form [formGroup]="entryGroup">
+    <div class="flex-container">
+      <h3 class="flex-title">Profile Image</h3>
+      <mat-form-field appearance="outline" class="flex-item">
+        <mat-label>Profile Image Url</mat-label>
+        <input matInput formControlName="aboutProfile">
+        <mat-icon matSuffix>link</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="flex-container">
+      <h3 class="flex-title">About Entries</h3>
+      <div *ngIf="aboutEntries.length > 0" class="flex-list">
+        <button mat-button (click)="deleteAboutEntries(aboutEntryInputs.selectedOptions.selected)">
+          Delete {{aboutEntryInputs.selectedOptions.selected.length}} bullets
+        </button>
+          <mat-selection-list #aboutEntryInputs>
+            <mat-list-option *ngFor="let entry of aboutEntries" [value]="entry">Title: {{entry.title}} | Value: {{entry.value}}</mat-list-option>
+          </mat-selection-list>
+      </div>
+      <mat-form-field appearance="outline" class="flex-item-min">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="aboutEntryTitle">
+        <mat-icon matSuffix>title</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="flex-item">
+        <mat-label>Value</mat-label>
+        <input matInput formControlName="aboutEntryValue">
+        <mat-icon matSuffix>text_snippet</mat-icon>
+      </mat-form-field>
+      <button mat-stroked-button class="course-add-button" (click)="addAboutEntry()"
+        [disabled]="entryGroup.get('aboutEntryValue').invalid || entryGroup.get('aboutEntryTitle').invalid">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="flex-container">
+      <h3 class="flex-title">About Urls</h3>
+      <div *ngIf="aboutUrls.length > 0" class="flex-list">
+        <button mat-button (click)="deleteAboutUrls(aboutUrlInputs.selectedOptions.selected)">
+          Delete {{aboutUrlInputs.selectedOptions.selected.length}} bullets
+        </button>
+        <mat-selection-list class="flex-list" #aboutUrlInputs>
+          <mat-list-option *ngFor="let url of aboutUrls" [value]="url">Url: {{url.url}} | Image Url: {{url.image}} | Alt Text: {{url.alt}}</mat-list-option>
+        </mat-selection-list>
+      </div>
+      <mat-form-field appearance="outline" class="flex-item">
+        <mat-label>Redirect Url</mat-label>
+        <input matInput formControlName="aboutUrlUrl">
+        <mat-icon matSuffix>link</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="flex-item">
+        <mat-label>Image Url</mat-label>
+        <input matInput formControlName="aboutUrlImage">
+        <mat-icon matSuffix>link</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="flex-item">
+        <mat-label>Image Alt Text</mat-label>
+        <input matInput formControlName="aboutUrlAlt">
+        <mat-icon matSuffix>accessibility</mat-icon>
+      </mat-form-field>
+      <button mat-stroked-button class="course-add-button" (click)="addAboutUrl()"
+        [disabled]="entryGroup.get('aboutUrlUrl').invalid || entryGroup.get('aboutUrlImage').invalid">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div>
+      <button mat-button (click)="saveEntry()"
+              [disabled]="aboutEntries.length === 0 && aboutUrls.length === 0 && entryGroup.get('aboutProfile').value === ''">Save Entry</button>
+    </div>
+  </form>
 </ng-template>
 
 <ng-template #bulletForm>
