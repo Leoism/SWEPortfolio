@@ -35,4 +35,17 @@
     margin: 8px 0;
     height: 128px;
   }
+
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 2% 1%;
+    width: 512px;
+  }
+
+  .remove-section {
+    padding: 0 1%;
+  }
 }

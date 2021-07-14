@@ -2,7 +2,6 @@ import { AfterViewInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { CourseCategory, DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
-import { AddItemsPage } from '../add-items-page/add-items-page.component';
 
 @Component({
   selector: 'experience-overview',
@@ -25,13 +24,6 @@ export class ExperienceOverview implements AfterViewInit {
     });
     DatabaseCommunicator.getCourses().then((entries) => {
       this.categories = entries;
-    });
-  }
-
-  openForm() {
-    const dialogRef = this.dialog.open(AddItemsPage);
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
     });
   }
 }

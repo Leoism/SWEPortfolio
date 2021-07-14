@@ -60,3 +60,8 @@ CREATE TABLE AboutUrl (
   Image   TEXT      NOT NULL,
   Alt     VARCHAR(512)
 );
+
+CREATE TABLE PasswordStore (
+  ID        SERIAL        PRIMARY KEY,
+  Password  VARCHAR(128)  UNIQUE NOT NULL
+);

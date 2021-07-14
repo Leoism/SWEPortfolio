@@ -161,4 +161,15 @@ export class DatabaseCommunicator {
 
     return statusCode === 200;
   }
+
+  static async login(password: string) {
+    const statusCode = (await fetch(`${this.baseUrl}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password, }),
+    })).status;
+    return statusCode === 200;
+  }
 };

@@ -13,6 +13,13 @@ export class RemoveItems implements AfterViewInit {
   categoryControl = new FormControl('work', []);
   currentType: string = 'work';
   columnNames: string[] = ['Company', 'Title', 'Year'];
+  isLoggedIn: boolean = false;
+
+  login(password: string) {
+    DatabaseCommunicator.login(password).then((v) => {
+      this.isLoggedIn = v;
+    });
+  }
 
   ngAfterViewInit() {
     DatabaseCommunicator.getWorkExperienceEntries().then((entries) => {

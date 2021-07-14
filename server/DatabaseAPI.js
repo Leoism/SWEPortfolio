@@ -6,6 +6,28 @@ const connectionString = `postgres://${process.env.USERNAME}:${process.env.PASSW
 const seasonVals = { Winter: 1, Spring: 2, Summer: 3, Fall: 4 };
 
 /**
+ * @param {String} password 
+ * @returns Returns true if the password exists
+ */
+async function login(password) {
+  const findPasswordQuery = `
+    SELECT id
+    FROM PasswordStore
+    WHERE password = $1;
+  `;
+  const pool = new Pool({ connectionString });
+  try {
+    const res = await pool.query(findPasswordQuery, [password.password]);
+    await pool.end();
+    if (res.rowCount > 0) return true;
+  } catch (err) {
+    console.log(err);
+    await pool.end();
+  }
+  return false;
+}
+
+/**
  * Retrieves all work experience from the database and returns it as an array.
  * @returns An array of all work experience sorted in descending chronological
  *          order
@@ -629,6 +651,7 @@ module.exports = {
   addCourses,
   addProject,
   addWorkExperience,
+  login,
   removeAboutEntries,
   removeAboutUrls,
   removeCategories,

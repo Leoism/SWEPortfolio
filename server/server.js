@@ -11,6 +11,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.post('/login', async (req, res) => {
+  const isSuccess = await databaseApi.login(req.body);
+  if (isSuccess) res.sendStatus(200);
+  else res.sendStatus(403);
+});
+
 app.get('/get_work_experience', async (req, res) => {
   res.json(await databaseApi.retrieveWorkExperience());
 });

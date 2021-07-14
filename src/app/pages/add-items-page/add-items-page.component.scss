@@ -53,7 +53,8 @@
     .course-add-button {
       height: 59px;
       align-self: flex-start;
-      margin: 4px 0;
+      margin: 4px 1%;
+      flex-grow: 1;
     }
   }
 }
