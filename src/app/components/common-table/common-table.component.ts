@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AboutEntry, AboutUrl, DatabaseCommunicator, Project, WorkExperience } from '../../middleware/DatabaseCommunicator';
 
@@ -18,7 +18,7 @@ type Table = 'work' | 'course' | 'project' | 'about-entries' | 'about-urls';
     ]),
   ],
 })
-export class CommonTable<T> {
+export class CommonTable<T> implements OnChanges {
   @Input() isRemoval: boolean = false;
   @Input() tableEntries: MatTableDataSource<T> = new MatTableDataSource<T>([]);
   @Input() columnNames: string[] = [];
@@ -84,5 +84,10 @@ export class CommonTable<T> {
     });
     this.tableEntries = new MatTableDataSource<T>(this.tableEntries.data);
     this.selection.clear();
+  }
+
+  ngOnChanges() {
+    if (this.tableEntries.data.length > 0)
+      this.expandedEntry = this.tableEntries.data[0];
   }
 }
