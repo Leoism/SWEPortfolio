@@ -36,11 +36,11 @@ export class DatabaseCommunicator {
   static baseUrl: string = 'http://localhost:8080';
 
   static async getWorkExperienceEntries() {
-    return (await fetch(`${this.baseUrl}/get_work_experience`)).json();
+    return (await fetch(`${this.baseUrl}/api/get_work_experience`)).json();
   }
 
   static async addWorkExperienceEntry(workEntry: WorkExperience) {
-    const statusCode = (await fetch(`${this.baseUrl}/add_work_experience`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/add_work_experience`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export class DatabaseCommunicator {
   }
 
   static async removeWorkExperienceEntries(workEntries: WorkExperience[]) {
-    const statusCode = (await fetch(`${this.baseUrl}/remove_work_experience`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/remove_work_experience`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,12 +63,12 @@ export class DatabaseCommunicator {
   }
 
   static async getProjects() {
-    return (await fetch(`${this.baseUrl}/get_projects`)).json();
+    return (await fetch(`${this.baseUrl}/api/get_projects`)).json();
   }
 
   static async addProject(project) {
     console.log(project);
-    const statusCode = (await fetch(`${this.baseUrl}/add_project`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/add_project`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ export class DatabaseCommunicator {
   }
 
   static async removeProject(projects) {
-    const statusCode = (await fetch(`${this.baseUrl}/remove_project`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/remove_project`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,15 +92,15 @@ export class DatabaseCommunicator {
   }
 
   static async getCategoryList() {
-    return (await fetch(`${this.baseUrl}/get_categories`)).json();
+    return (await fetch(`${this.baseUrl}/api/get_categories`)).json();
   }
 
   static async getCourses() {
-    return (await fetch(`${this.baseUrl}/get_courses`)).json();
+    return (await fetch(`${this.baseUrl}/api/get_courses`)).json();
   }
 
   static async addCourses(category, courses) {
-    const statusCode = (await fetch(`${this.baseUrl}/add_courses`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/add_courses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ export class DatabaseCommunicator {
   }
 
   static async removeCourses(categories) {
-    const statusCode = (await fetch(`${this.baseUrl}/remove_courses`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/remove_courses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,11 +123,11 @@ export class DatabaseCommunicator {
   }
 
   static async getAboutInformation() {
-    return (await fetch(`${this.baseUrl}/get_about_information`)).json();
+    return (await fetch(`${this.baseUrl}/api/get_about_information`)).json();
   }
 
   static async addAboutInformation(aboutInfo) {
-    const statusCode = (await fetch(`${this.baseUrl}/add_about_information`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/add_about_information`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ export class DatabaseCommunicator {
   }
 
   static async removeAboutEntries(entries) {
-    const statusCode = (await fetch(`${this.baseUrl}/remove_about_entries`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/remove_about_entries`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ export class DatabaseCommunicator {
   }
 
   static async removeAboutUrls(urls) {
-    const statusCode = (await fetch(`${this.baseUrl}/remove_about_urls`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/remove_about_urls`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ export class DatabaseCommunicator {
   }
 
   static async login(password: string) {
-    const statusCode = (await fetch(`${this.baseUrl}/login`, {
+    const statusCode = (await fetch(`${this.baseUrl}/api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
