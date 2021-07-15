@@ -31,7 +31,14 @@
   <ng-container *ngIf="!isRemoval">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnNames">
       <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-      <td mat-cell *matCellDef="let entry">{{entry[column.toLowerCase()]}}</td>
+      <td mat-cell *matCellDef="let entry">
+        <ng-container *ngIf="column.toLowerCase() !== 'link'; else isLink">
+          {{entry[column.toLowerCase()]}}
+        </ng-container>
+        <ng-template #isLink>
+          <a href="{{entry[column.toLowerCase()]}}" target="_blank">{{truncateLink(entry[column.toLowerCase()])}}</a>
+        </ng-template>
+      </td>
     </ng-container>
   </ng-container>
 

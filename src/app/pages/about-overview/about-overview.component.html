@@ -7,7 +7,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div *ngFor="let entry of aboutUrls" class="about-url-button">
-      <a [href]="entry.url">
+      <a [href]="entry.url" target="_blank">
         <img [src]="entry.image" [alt]="entry.alt"/>
       </a>
     </div>

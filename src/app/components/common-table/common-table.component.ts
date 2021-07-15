@@ -49,6 +49,11 @@ export class CommonTable<T> {
     this.selection.select(...this.tableEntries.data);
   }
 
+  /** Truncates a link to 10 characters */
+  truncateLink(url: string) {
+    return url.substring(0, 22) + '...';
+  }
+
   async removeEntries() {
     let isSuccess = false;
     switch (this.tableType) {
