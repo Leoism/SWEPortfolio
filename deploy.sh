@@ -32,7 +32,7 @@ then sed -i -E "s,(static baseUrl: string = ').+?(';),\1$url_argument\2," src/ap
 echo "Url: $url_argument";
 fi
 if [ -n "${init_argument+set}" ];
-then psql -U postgres -c "CREATE DATABASE dummydb;"
+then psql -U postgres -c "CREATE DATABASE portfoliodb;"
 psql -U postgres -d portfoliodb -a -f server/initDatabase.sql
 echo "Url: $init_argument";
 fi
