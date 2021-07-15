@@ -6,11 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'SWEPortfolio';
+  title = 'Portfolio';
   readonly navButtons = [
-    {name: 'Home', link: '/'},
-    {name: 'Projects', link: '/projects'},
-    {name: 'About', link: '/about'},
-    {name: 'Portal', link: '/portal'},
+    { name: 'Home', link: '/' },
+    { name: 'Projects', link: '/projects' },
+    { name: 'About', link: '/about' },
+    { name: 'Portal', link: '/portal' },
   ];
 }
